@@ -68,3 +68,5 @@ RUN mkdir -p $WORKSPACE
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /home/$USERNAME/.bashrc
 RUN echo "source $WORKSPACE/install/setup.bash && echo \"Sourced workspace\"" >> /home/$USERNAME/.bashrc
 
+LABEL org.opencontainers.image.authors="eccentricOrange, exMachina316"
+LABEL org.opencontainers.image.source="https://github.com/eccentricOrange/int-brain-containers"

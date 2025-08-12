@@ -1,4 +1,4 @@
-FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev0.3
+FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev0.4
 
 USER root
 
@@ -10,3 +10,6 @@ RUN apt-get install --no-install-recommends -y \
     i2c-tools
 
 USER ubuntu
+
+LABEL org.opencontainers.image.authors="eccentricOrange, exMachina316"
+LABEL org.opencontainers.image.source="https://github.com/eccentricOrange/int-brain-containers"

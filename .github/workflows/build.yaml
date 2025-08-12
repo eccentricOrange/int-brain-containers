@@ -51,7 +51,7 @@ jobs:
 
   # Stage 2: Specific Images with packages
   specific:
-    needs: int-brain-common
+    needs: [get-version, int-brain-common]
     name: Specific Images with packages
     permissions:
       packages: write
