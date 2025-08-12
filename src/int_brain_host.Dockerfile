@@ -1,4 +1,4 @@
-FROM ghcr.io/eccentricOrange/int_brain_common:dev0.1
+FROM ghcr.io/eccentricOrange/int_brain_common:amd64-dev0.1
 
 # Install Gz sim
 RUN apt-get install --no-install-recommends -y \
