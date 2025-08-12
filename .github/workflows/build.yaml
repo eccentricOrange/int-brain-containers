@@ -1,0 +1,91 @@
+name: Build Multi-Architecture ROS Containers
+
+on:
+  push:
+    tags:
+      - 'dev*'
+      - 'v*'
+
+jobs:
+
+  # Stage 0: Check conditions and set variables
+  get-version:
+    runs-on: ubuntu-latest
+
+    outputs:
+      image_version: ${{ steps.set_version.outputs.image_version }}
+
+    permissions:
+      packages: write
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set image version
+        id: set_version
+        run: |
+          echo "image_version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+
+
+  # Stage 1: Common Images
+  int-brain-common:
+    needs: get-version
+    name: Common Images
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      matrix:
+        config:
+          - { build_context: './src', image_name: 'int_brain_common', image_version: "amd64-${{ needs.get-version.outputs.image_version }}", runs_on: ubuntu-24.04 }
+          - { build_context: './src', image_name: 'int_brain_common', image_version: "aarch64-${{ needs.get-version.outputs.image_version }}", runs_on: ubuntu-24.04-arm }
+    uses: ./.github/workflows/build-workflow.yaml
+    with:
+      build_context: ${{ matrix.config.build_context }}
+      image_name: ${{ matrix.config.image_name }}
+      image_version: ${{ matrix.config.image_version }}
+      runs_on: ${{ matrix.config.runs_on }}
+
+  # Stage 2: Specific Images with packages
+  specific:
+    needs: int-brain-common
+    name: Specific Images with packages
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      matrix:
+        config:
+          - { build_context: './src', image_name: 'int_brain_host', image_version: "amd64-${{ needs.get-version.outputs.image_version }}", runs_on: ubuntu-24.04 }
+          - { build_context: './src', image_name: 'int_brain_sbc', image_version: "aarch64-${{ needs.get-version.outputs.image_version }}", runs_on: ubuntu-24.04-arm }
+    uses: ./.github/workflows/build-workflow.yaml
+    with:
+      build_context: ${{ matrix.config.build_context }}
+      image_name: ${{ matrix.config.image_name }}
+      image_version: ${{ matrix.config.image_version }}
+      runs_on: ${{ matrix.config.runs_on }}
+
+  # Stage 3: Create release
+  # if the tag is v*, create a pre-release
+  create-release:
+    needs: specific
+    if: startsWith(github.ref_name, 'v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+      pull-requests: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          prerelease: true
+          generateReleaseNotes: true
