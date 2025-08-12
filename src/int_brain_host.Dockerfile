@@ -17,6 +17,7 @@ RUN apt-get install --no-install-recommends -y \
     ros-$ROS_DISTRO-plotjuggler-ros
 
 USER ubuntu
+WORKDIR $WORKSPACE
 
 LABEL org.opencontainers.image.authors="eccentricOrange, exMachina316"
 LABEL org.opencontainers.image.source="https://github.com/eccentricOrange/int-brain-containers"
