@@ -10,7 +10,7 @@ RUN apt-get install --no-install-recommends -y \
     i2c-tools
 
 USER ubuntu
-WORKDIR $WORKSPACE
+WORKDIR $WORKSPACES
 
 LABEL org.opencontainers.image.authors="eccentricOrange, exMachina316"
 LABEL org.opencontainers.image.source="https://github.com/eccentricOrange/int-brain-containers"
