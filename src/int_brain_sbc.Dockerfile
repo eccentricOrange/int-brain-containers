@@ -1,6 +1,11 @@
-FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev0.5
+FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev0.7
 
 USER root
+
+## Update system
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get update -y
 
 ## install hardware-specific packages
 RUN apt-get install --no-install-recommends -y \
