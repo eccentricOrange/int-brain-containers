@@ -23,7 +23,10 @@ RUN apt-get install --no-install-recommends -y \
     python3-pip \
     python3-venv \
     net-tools \
-    tree
+    tree \
+    bash-completion \
+    wget \
+    xterm
 
 ## Install ROS packages
 # Install Xacro
