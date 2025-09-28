@@ -1,4 +1,4 @@
-FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev0.7
+FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev0.12
 
 USER root
 
