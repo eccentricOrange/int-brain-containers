@@ -57,6 +57,10 @@ RUN apt-get install --no-install-recommends -y \
 RUN apt-get install --no-install-recommends -y \
     ros-$ROS_DISTRO-robot-localization
 
+# Install RPLidar SDK
+RUN apt-get install --no-install-recommends -y \
+    ros-$ROS_DISTRO-rplidar-ros
+
 ## Set default shell to bash 
 SHELL ["/bin/bash", "-c"]
 
