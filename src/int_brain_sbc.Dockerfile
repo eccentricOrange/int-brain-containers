@@ -1,4 +1,4 @@
-FROM ghcr.io/eccentricorange/int_brain_common:aarch64-dev1.0.1
+FROM ghcr.io/eccentricorange/int_brain_common:aarch64-v1.0.1
 
 ENV PLATFORM=sbc
 
